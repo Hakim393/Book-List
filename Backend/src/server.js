@@ -11,16 +11,37 @@ const PORT = process.env.PORT;
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
-// Nambahin 
+// Nambahin
+app.get("/api", (req, res) => {
+  res.send("Selamat datang di API Kami !");
+});
 app.post("/api/books", async (req, res) => {
-  const { title, author, publishedYear, genre, sinopsis, rating, price, coverImage, publishDate } = req.body;
+  const {
+    title,
+    author,
+    publishedYear,
+    genre,
+    sinopsis,
+    rating,
+    price,
+    coverImage,
+    publishDate,
+  } = req.body;
   const book = await prisma.book.create({
-    data: {title, author, publishedYear: publishedYear ? parseInt(publishedYear) : null, 
-      genre, sinopsis, rating, price, coverImage, publishDate,},
+    data: {
+      title,
+      author,
+      publishedYear: publishedYear ? parseInt(publishedYear) : null,
+      genre,
+      sinopsis,
+      rating,
+      price,
+      coverImage,
+      publishDate,
+    },
   });
   res.json(book);
 });
-
 
 app.get("/api/books", async (req, res) => {
   const books = await prisma.book.findMany();
@@ -41,7 +62,17 @@ app.get("/api/books/:id", async (req, res) => {
 
 app.put("/api/books/:id", async (req, res) => {
   const { id } = req.params;
-  const { title, author, publishedYear, genre, sinopsis, rating, price, coverImage, publishDate } = req.body;
+  const {
+    title,
+    author,
+    publishedYear,
+    genre,
+    sinopsis,
+    rating,
+    price,
+    coverImage,
+    publishDate,
+  } = req.body;
 
   try {
     const updatedBook = await prisma.book.update({
